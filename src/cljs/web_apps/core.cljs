@@ -1,6 +1,7 @@
 (ns web-apps.core
   (:require
     [chord.client :as ws]
+    [kee-frame.websocket :as websocket]
     [kee-frame.core :as kf]
     [re-frame.core :as rf]
     [ajax.core :as http]
@@ -8,6 +9,10 @@
     [web-apps.routing :as routing]
     [web-apps.view :as view]))
 
+(rf/reg-event-fx ::start-socket
+                 (fn [_ _]
+                   {::websocket/open {:path      "/"
+                                      :dispatch  ::on-event-receive}}))
 
 (kf/reg-controller
   ::socket-controller

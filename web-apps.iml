@@ -97,6 +97,7 @@
     <orderEntry type="library" name="Leiningen: javax.servlet/javax.servlet-api:3.1.0" level="project" />
     <orderEntry type="library" name="Leiningen: javax.xml.bind/jaxb-api:2.3.0" level="project" />
     <orderEntry type="library" name="Leiningen: json-html:0.4.7" level="project" />
+    <orderEntry type="library" name="Leiningen: kee-frame-sockets:0.0.2" level="project" />
     <orderEntry type="library" name="Leiningen: kee-frame:1.1.2" level="project" />
     <orderEntry type="library" name="Leiningen: lambdaisland/deep-diff:0.0-47" level="project" />
     <orderEntry type="library" name="Leiningen: luminus-jetty:0.2.3" level="project" />
