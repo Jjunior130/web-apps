@@ -1,12 +1,14 @@
 (ns user
   "Userspace functions you can run by default in your local REPL."
   (:require
-   [web-apps.config :refer [env]]
+    [web-apps.config :refer [env]]
     [clojure.pprint]
     [clojure.spec.alpha :as s]
     [expound.alpha :as expound]
     [mount.core :as mount]
-    [web-apps.core :refer [start-app]]))
+    [web-apps.core :refer [start-app]]
+    [shadow.cljs.devtools.server :as shadow-server]
+    [shadow.cljs.devtools.api :as shadow]))
 
 (alter-var-root #'s/*explain-out* (constantly expound/printer))
 
@@ -28,5 +30,13 @@
   []
   (stop)
   (start))
+
+(comment
+  (do
+    (start)
+    (shadow-server/start!)
+    (shadow/watch :app))
+  (shadow/repl :app)
+  (shadow/compile :app))
 
 
