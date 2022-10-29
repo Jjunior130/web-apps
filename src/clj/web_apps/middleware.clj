@@ -8,8 +8,9 @@
     [muuntaja.middleware :refer [wrap-format wrap-params]]
     [web-apps.config :refer [env]]
     [ring-ttl-session.core :refer [ttl-memory-store]]
-    [ring.middleware.defaults :refer [site-defaults wrap-defaults]])
-  )
+    [ring.middleware.defaults :refer [site-defaults wrap-defaults]]
+    [chord.http-kit :refer [wrap-websocket-handler]]))
+
 
 (defn wrap-internal-error [handler]
   (let [error-result (fn [^Throwable t]
@@ -47,6 +48,7 @@
 
 (defn wrap-base [handler]
   (-> ((:middleware defaults) handler)
+      wrap-websocket-handler
       (wrap-defaults
         (-> site-defaults
             (assoc-in [:security :anti-forgery] false)

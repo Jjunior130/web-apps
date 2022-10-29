@@ -4,6 +4,7 @@
     <option name="projectFiles">
       <set>
         <option value="file://$PROJECT_DIR$/project.clj" />
+        <option value="jar://$MAVEN_REPOSITORY$/kee-frame-sockets/kee-frame-sockets/0.0.2/kee-frame-sockets-0.0.2.jar!/META-INF/leiningen/kee-frame-sockets/kee-frame-sockets/project.clj" />
       </set>
     </option>
   </component>

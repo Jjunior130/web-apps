@@ -1,5 +1,6 @@
 (ns web-apps.core
   (:require
+    [chord.client :as ws]
     [kee-frame.core :as kf]
     [re-frame.core :as rf]
     [ajax.core :as http]
@@ -7,6 +8,11 @@
     [web-apps.routing :as routing]
     [web-apps.view :as view]))
 
+
+(kf/reg-controller
+  ::socket-controller
+  {:params (constantly true)
+   :start  [::start-socket]})
 
 (rf/reg-event-fx
   ::load-about-page
