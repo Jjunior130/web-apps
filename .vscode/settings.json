@@ -1,0 +1,48 @@
+{
+        "calva.customREPLCommandSnippets": [
+        {
+            "name": "Start web-apps Server",
+            "ns": "user",
+            "repl": "clj",
+            "snippet": "(start)"
+        },
+        {
+            "name": "Stop web-apps Server",
+            "ns": "user",
+            "repl": "clj",
+            "snippet": "(stop)"
+        },
+        {
+            "name": "Restart web-apps Server",
+            "ns": "user",
+            "repl": "clj",
+            "snippet": "(restart)"
+        }
+    ],
+    "calva.replConnectSequences": [
+                {
+            "name": "web-apps Server",
+            "projectType": "Leiningen",
+            "afterCLJReplJackInCode": "(in-ns 'user) (start) (println \"Access the server at http://localhost:3000\")",
+            "cljsType": "none",
+            "menuSelections": {
+                "leinProfiles": [
+                    "dev"
+                ]
+            }
+        },
+        {
+            "name": "web-apps Server + Client",
+            "projectType": "shadow-cljs",
+            "afterCLJReplJackInCode": "(in-ns 'user) (start) (println \"Access the server at http://localhost:3000\")",
+            "cljsType": "shadow-cljs",
+            "menuSelections": {
+                "cljsLaunchBuilds": [
+                    "app",
+                    "test"
+                ],
+                "cljsDefaultBuild": "app"
+            }
+        }
+    ]
+}
