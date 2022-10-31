@@ -1,7 +1,6 @@
 (ns web-apps.routes.websockets
   (:require
     [luminus.ws :as ws]
-    [web-apps.db.core :as datomic]
     [cognitect.transit :as t]
     [clojure.tools.logging :as log]))
 
