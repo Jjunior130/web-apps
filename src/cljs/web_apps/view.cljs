@@ -33,8 +33,6 @@
   [:section.section>div.container>div.content
    [:img {:src "/img/warning_clojure.png"}]])
 
-(defonce messages (r/atom []))
-
 (rf/reg-sub
   ::messages
   (fn [{msgs :messages} _]

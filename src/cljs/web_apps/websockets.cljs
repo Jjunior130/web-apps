@@ -18,7 +18,7 @@
 (kf/reg-event-db
   ::server>clients
   (fn [db [message]]
-    (update db :messages #(vec (take 10 (conj % message))))))
+    (update db :messages #(vec (take-last 10 (conj % message))))))
 
 (kf/reg-event-db
   ::reg-server>clients

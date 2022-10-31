@@ -51,7 +51,7 @@
 
 (kf/reg-event-fx
   ::init-client
-  (fn [ctx _]
+  (fn [_ _]
     {:fx [[:dispatch [::ws/open-socket
                       (str "ws://" (.-host js/location) "/ws")]]
           [:dispatch [::ws/reg-server>clients]]]}))
