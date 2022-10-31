@@ -3,12 +3,10 @@
    [web-apps.layout :as layout]
    [clojure.java.io :as io]
    [web-apps.middleware :as middleware]
-   [ring.util.response]
-   [ring.util.http-response :as response]
-   [clojure.tools.logging :as l]))
+   [ring.util.http-response :as response]))
 
 (defn home-page [request]
-  (layout/render (l/spy request) "home.html"))
+  (layout/render request "home.html"))
 
 (defn home-routes []
   [""

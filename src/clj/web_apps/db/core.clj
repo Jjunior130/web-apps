@@ -3,11 +3,13 @@
     [datomic.api :as d]
     [io.rkn.conformity :as c]
     [mount.core :refer [defstate]]
-    [web-apps.config :refer [env]]))
+    [web-apps.config :refer [env]]
+    [taoensso.timbre :as log]))
 
 (defstate conn
-  :start (do (-> env :database-url d/create-database) (-> env :database-url d/connect))
-  :stop (-> conn .release))
+          :start (do (-> env :database-url d/create-database)
+                     (-> env :database-url d/connect))
+          :stop (-> conn .release))
 
 (defn install-schema
   "This function expected to be called at system start up.
@@ -48,10 +50,10 @@
                     :status :user.status/active
                     :email \"aaa@example.com\" })"
   [conn {:keys [id screen-name status email]}]
-  @(d/transact conn [{:user/id         id
-                      :user/name       screen-name
-                      :user/status     status
-                      :user/email      email}]))
+  @(d/transact conn [{:user/id     id
+                      :user/name   screen-name
+                      :user/status status
+                      :user/email  email}]))
 
 (defn find-one-by
   "Given db value and an (attr/val), return the user as EntityMap (datomic.query.EntityMap)

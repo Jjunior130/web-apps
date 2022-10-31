@@ -32,6 +32,7 @@
   (start))
 
 (comment
+  (restart)
   (do
     (start)
     (shadow-server/start!)

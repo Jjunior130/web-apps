@@ -83,7 +83,6 @@
     <orderEntry type="library" name="Leiningen: funcool/cuerdas:2.2.0" level="project" />
     <orderEntry type="library" name="Leiningen: funcool/struct:1.4.0" level="project" />
     <orderEntry type="library" name="Leiningen: hiccup:1.0.5" level="project" />
-    <orderEntry type="library" name="Leiningen: http-kit:2.1.19" level="project" />
     <orderEntry type="library" name="Leiningen: info.sunng/ring-jetty9-adapter:0.17.2" level="project" />
     <orderEntry type="library" name="Leiningen: io.aviso/pretty:0.1.37" level="project" />
     <orderEntry type="library" name="Leiningen: io.github.classgraph/classgraph:4.8.139" level="project" />
@@ -93,11 +92,9 @@
     <orderEntry type="library" name="Leiningen: io.undertow/undertow-core:2.2.4.Final" level="project" />
     <orderEntry type="library" name="Leiningen: jakarta.annotation/jakarta.annotation-api:1.3.5" level="project" />
     <orderEntry type="library" name="Leiningen: jakarta.transaction/jakarta.transaction-api:1.3.3" level="project" />
-    <orderEntry type="library" name="Leiningen: jarohen/chord:0.8.1" level="project" />
     <orderEntry type="library" name="Leiningen: javax.servlet/javax.servlet-api:3.1.0" level="project" />
     <orderEntry type="library" name="Leiningen: javax.xml.bind/jaxb-api:2.3.0" level="project" />
     <orderEntry type="library" name="Leiningen: json-html:0.4.7" level="project" />
-    <orderEntry type="library" name="Leiningen: kee-frame-sockets:0.0.2" level="project" />
     <orderEntry type="library" name="Leiningen: kee-frame:1.1.2" level="project" />
     <orderEntry type="library" name="Leiningen: lambdaisland/deep-diff:0.0-47" level="project" />
     <orderEntry type="library" name="Leiningen: luminus-jetty:0.2.3" level="project" />
@@ -133,7 +130,6 @@
     <orderEntry type="library" name="Leiningen: net.cgrand/macrovich:0.2.1" level="project" />
     <orderEntry type="library" name="Leiningen: net.java.dev.jna/jna:5.12.1" level="project" />
     <orderEntry type="library" name="Leiningen: net.jodah/expiringmap:0.5.9" level="project" />
-    <orderEntry type="library" name="Leiningen: net.unit8/fressian-cljs:0.2.0" level="project" />
     <orderEntry type="library" name="Leiningen: nrepl:1.0.0" level="project" />
     <orderEntry type="library" name="Leiningen: ns-tracker:0.4.0" level="project" />
     <orderEntry type="library" name="Leiningen: org.apache.activemq/artemis-commons:1.4.0" level="project" />
@@ -157,7 +153,6 @@
     <orderEntry type="library" name="Leiningen: org.clojure/core.memoize:1.0.253" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/core.rrb-vector:0.1.2" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/core.specs.alpha:0.2.62" level="project" />
-    <orderEntry type="library" name="Leiningen: org.clojure/data.fressian:0.2.1" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/data.json:0.2.6" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/data.priority-map:1.1.0" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/google-closure-library-third-party:0.0-20211011-0726fdeb" level="project" />

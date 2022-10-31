@@ -41,9 +41,7 @@
                  [ring/ring-core "1.9.6"]
                  [ring/ring-defaults "0.3.4"]
                  [selmer "1.12.55"]
-                 [thheller/shadow-cljs "2.20.3" :scope "provided"]
-                 [jarohen/chord "0.8.1"]
-                 [kee-frame-sockets "0.0.2"]]
+                 [thheller/shadow-cljs "2.20.3" :scope "provided"]]
 
   :min-lein-version "2.0.0"
   

@@ -1,23 +1,12 @@
 (ns web-apps.core
   (:require
-    [chord.client :as ws]
-    [kee-frame.websocket :as websocket]
     [kee-frame.core :as kf]
     [re-frame.core :as rf]
     [ajax.core :as http]
     [web-apps.ajax :as ajax]
     [web-apps.routing :as routing]
-    [web-apps.view :as view]))
-
-(rf/reg-event-fx ::start-socket
-                 (fn [_ _]
-                   {::websocket/open {:path      "/"
-                                      :dispatch  ::on-event-receive}}))
-
-(kf/reg-controller
-  ::socket-controller
-  {:params (constantly true)
-   :start  [::start-socket]})
+    [web-apps.view :as view]
+    [web-apps.websockets :as ws]))
 
 (rf/reg-event-fx
   ::load-about-page
@@ -43,7 +32,6 @@
   (fn [{:keys [db]} [_ docs]]
     {:db (assoc db :docs docs)}))
 
-
 (kf/reg-controller
   ::home-controller
   {:params (constantly true)
@@ -59,9 +47,16 @@
               #_#_
               :log            {:level        :debug
                                :ns-blacklist ["kee-frame.event-logger"]}
-              :initial-db     {}
               :root-component [view/root-component]}))
+
+(kf/reg-event-fx
+  ::init-client
+  (fn [ctx _]
+    {:fx [[:dispatch [::ws/open-socket
+                      (str "ws://" (.-host js/location) "/ws")]]
+          [:dispatch [::ws/reg-server>clients]]]}))
 
 (defn init! []
   (ajax/load-interceptors!)
+  (rf/dispatch [::init-client])
   (mount-components))
