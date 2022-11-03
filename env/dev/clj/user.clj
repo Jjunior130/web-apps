@@ -33,11 +33,16 @@
 
 (comment
   (restart)
-  (do
-    (start)
-    (shadow-server/start!)
-    (shadow/watch :app))
-  (shadow/repl :app)
+  {:start (start)
+   :shadow-server/start!
+   (shadow-server/start!)
+   :shadow/watch
+   (shadow/watch :app)}
+  {:stop (stop)
+   :shadow-server/stop!
+   (shadow-server/stop!)
+   :shadow/stop-worker
+   (shadow/stop-worker :app)}
   (shadow/compile :app))
 
 

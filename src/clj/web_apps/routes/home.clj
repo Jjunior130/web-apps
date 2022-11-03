@@ -1,9 +1,9 @@
 (ns web-apps.routes.home
   (:require
-   [web-apps.layout :as layout]
-   [clojure.java.io :as io]
-   [web-apps.middleware :as middleware]
-   [ring.util.http-response :as response]))
+    [web-apps.layout :as layout]
+    [clojure.java.io :as io]
+    [web-apps.middleware :as middleware]
+    [ring.util.http-response :as response]))
 
 (defn home-page [request]
   (layout/render request "home.html"))

@@ -6,7 +6,8 @@
     [web-apps.ajax :as ajax]
     [web-apps.routing :as routing]
     [web-apps.view :as view]
-    [web-apps.websockets :as ws]))
+    [web-apps.websockets :as ws]
+    [web-apps.db]))
 
 (rf/reg-event-fx
   ::load-about-page
@@ -52,9 +53,12 @@
 (kf/reg-event-fx
   ::init-client
   (fn [_ _]
-    {:fx [[:dispatch [::ws/open-socket
-                      (str "ws://" (.-host js/location) "/ws")]]
-          [:dispatch [::ws/reg-server>clients]]]}))
+    {::ws/open-socket
+     (str (if (= "https:" (-> js/document .-location .-protocol))
+            "wss://"
+            "ws://")
+          (-> js/document .-location .-host)
+          "/ws")}))
 
 (defn init! []
   (ajax/load-interceptors!)

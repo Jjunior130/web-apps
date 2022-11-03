@@ -18,7 +18,7 @@
                  [io.rkn/conformity "0.5.1"]
                  [json-html "0.4.7"]
                  [kee-frame "1.1.2" :exclusions [metosin/reitit-core org.clojure/core.async]]
-                 [luminus-jetty "0.2.3"]
+                 [luminus-http-kit "0.2.0"]
                  [luminus-transit "0.1.5"]
                  [luminus/ring-ttl-session "0.3.3"]
                  [markdown-clj "1.11.3"]
@@ -41,7 +41,10 @@
                  [ring/ring-core "1.9.6"]
                  [ring/ring-defaults "0.3.4"]
                  [selmer "1.12.55"]
-                 [thheller/shadow-cljs "2.20.3" :scope "provided"]]
+                 [thheller/shadow-cljs "2.20.3" :scope "provided"]
+                 [jarohen/chord "0.8.1"]
+                 [re-posh "0.3.3"]
+                 [datascript "1.3.15"]]
 
   :min-lein-version "2.0.0"
   

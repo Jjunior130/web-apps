@@ -4,44 +4,46 @@
     [markdown.core :refer [md->html]]
     [reagent.core :as r]
     [re-frame.core :as rf]
+    [re-posh.core :as rp]
     [web-apps.websockets :as ws]
     [taoensso.timbre :as log]))
 
 (defn nav-link [title page]
   [:a.navbar-item
-   {:href   (kf/path-for [page])
+   {:href  (kf/path-for [page])
     :class (when (= page @(rf/subscribe [:nav/page])) "is-active")}
    title])
 
 (defn navbar []
   (r/with-let [expanded? (r/atom false)]
-    [:nav.navbar.is-info>div.container
-     [:div.navbar-brand
-      [:a.navbar-item {:href "/" :style {:font-weight :bold}} "web-apps"]
-      [:span.navbar-burger.burger
-       {:data-target :nav-menu
-        :on-click #(swap! expanded? not)
-        :class (when @expanded? :is-active)}
-       [:span][:span][:span]]]
-     [:div#nav-menu.navbar-menu
-      {:class (when @expanded? :is-active)}
-      [:div.navbar-start
-       [nav-link "Home" :home]
-       [nav-link "About" :about]]]]))
+              [:nav.navbar.is-info>div.container
+               [:div.navbar-brand
+                [:a.navbar-item {:href "/" :style {:font-weight :bold}} "web-apps"]
+                [:span.navbar-burger.burger
+                 {:data-target :nav-menu
+                  :on-click    #(swap! expanded? not)
+                  :class       (when @expanded? :is-active)}
+                 [:span] [:span] [:span]]]
+               [:div#nav-menu.navbar-menu
+                {:class (when @expanded? :is-active)}
+                [:div.navbar-start
+                 [nav-link "Home" :home]
+                 [nav-link "About" :about]]]]))
 
 (defn about-page []
   [:section.section>div.container>div.content
    [:img {:src "/img/warning_clojure.png"}]])
 
-(rf/reg-sub
+(rp/reg-query-sub
   ::messages
-  (fn [{msgs :messages} _]
-    msgs))
+  '[:find ?msg ?t
+    :where [_ :chat/message ?msg ?t]])
 
 (defn message-list []
   [:ul
-   (for [[i message] (map-indexed vector @(rf/subscribe
-                                            [::messages]))]
+   (for [[i [message]] (take-last 10 (map-indexed vector
+                                                  (sort-by second @(rf/subscribe
+                                                                     [::messages]))))]
      ^{:key i}
      [:li message])])
 
@@ -62,7 +64,8 @@
         #(reset! value (-> % .-target .-value))
         :on-key-down
         #(when (= (.-keyCode %) 13)
-           (rf/dispatch [::ws/client>server @value])
+           (rf/dispatch [::ws/client>server
+                         [[:db/add -1 :chat/message @value]]])
            (reset! value nil))}])))
 
 (defn home-page []
@@ -84,6 +87,6 @@
   [:div
    [navbar]
    [kf/switch-route (fn [route] (get-in route [:data :name]))
-    :home home-page 
-    :about about-page 
+    :home home-page
+    :about about-page
     nil [:div ""]]])

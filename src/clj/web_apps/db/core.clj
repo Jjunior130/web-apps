@@ -1,24 +1,22 @@
 (ns web-apps.db.core
   (:require
-    [datomic.api :as d]
-    [io.rkn.conformity :as c]
+    [datascript.core :as d]
+    #_[io.rkn.conformity :as c]
     [mount.core :refer [defstate]]
-    [web-apps.config :refer [env]]
-    [taoensso.timbre :as log]))
+    [clojure.tools.logging :as log]))
 
 (defstate conn
-          :start (do (-> env :database-url d/create-database)
-                     (-> env :database-url d/connect))
-          :stop (-> conn .release))
+          :start (d/create-conn)
+          :stop nil)
 
-(defn install-schema
-  "This function expected to be called at system start up.
+#_(defn install-schema
+    "This function expected to be called at system start up.
 
   Datomic schema migrations or db preinstalled data can be put into 'migrations/schema.edn'
   Every txes will be executed exactly once no matter how many times system restart."
-  [conn]
-  (let [norms-map (c/read-resource "migrations/schema.edn")]
-    (c/ensure-conforms conn norms-map (keys norms-map))))
+    [conn]
+    (let [norms-map (c/read-resource "migrations/schema.edn")]
+      (c/ensure-conforms conn norms-map (keys norms-map))))
 
 (defn show-schema
   "Show currently installed schema"
@@ -35,13 +33,13 @@
            [((comp not contains?) ?system-ns ?ns)]]
          (d/db conn) system-ns)))
 
-(defn show-transaction
-  "Show all the transaction data
+#_(defn show-transaction
+    "Show all the transaction data
    e.g.
     (-> conn show-transaction count)
     => the number of transaction"
-  [conn]
-  (seq (d/tx-range (d/log conn) nil nil)))
+    [conn]
+    (seq (d/tx-range (d/log conn) nil nil)))
 
 (defn add-user
   "e.g.
@@ -75,3 +73,8 @@
 
 (defn find-user [db id]
   (d/touch (find-one-by db :user/id id)))
+
+(comment
+  (install-schema conn)
+  (show-schema conn)
+  (show-transaction conn))

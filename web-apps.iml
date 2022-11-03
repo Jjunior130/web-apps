@@ -75,29 +75,30 @@
     <orderEntry type="library" name="Leiningen: cprop:0.1.19" level="project" />
     <orderEntry type="library" name="Leiningen: crypto-equality:1.0.1" level="project" />
     <orderEntry type="library" name="Leiningen: crypto-random:1.2.1" level="project" />
+    <orderEntry type="library" name="Leiningen: datascript:1.3.15" level="project" />
     <orderEntry type="library" name="Leiningen: day8.re-frame/http-fx:0.2.4" level="project" />
     <orderEntry type="library" name="Leiningen: day8.re-frame/test:0.1.5" level="project" />
+    <orderEntry type="library" name="Leiningen: denistakeda/posh:0.5.7" level="project" />
     <orderEntry type="library" name="Leiningen: expiring-map:0.1.9" level="project" />
     <orderEntry type="library" name="Leiningen: expound:0.9.0" level="project" />
     <orderEntry type="library" name="Leiningen: fipp:0.6.26" level="project" />
     <orderEntry type="library" name="Leiningen: funcool/cuerdas:2.2.0" level="project" />
     <orderEntry type="library" name="Leiningen: funcool/struct:1.4.0" level="project" />
     <orderEntry type="library" name="Leiningen: hiccup:1.0.5" level="project" />
-    <orderEntry type="library" name="Leiningen: info.sunng/ring-jetty9-adapter:0.17.2" level="project" />
+    <orderEntry type="library" name="Leiningen: http-kit:2.6.0" level="project" />
     <orderEntry type="library" name="Leiningen: io.aviso/pretty:0.1.37" level="project" />
     <orderEntry type="library" name="Leiningen: io.github.classgraph/classgraph:4.8.139" level="project" />
     <orderEntry type="library" name="Leiningen: io.methvin/directory-watcher:0.16.1" level="project" />
     <orderEntry type="library" name="Leiningen: io.netty/netty-all:4.0.39.Final" level="project" />
     <orderEntry type="library" name="Leiningen: io.rkn/conformity:0.5.1" level="project" />
     <orderEntry type="library" name="Leiningen: io.undertow/undertow-core:2.2.4.Final" level="project" />
-    <orderEntry type="library" name="Leiningen: jakarta.annotation/jakarta.annotation-api:1.3.5" level="project" />
-    <orderEntry type="library" name="Leiningen: jakarta.transaction/jakarta.transaction-api:1.3.3" level="project" />
+    <orderEntry type="library" name="Leiningen: jarohen/chord:0.8.1" level="project" />
     <orderEntry type="library" name="Leiningen: javax.servlet/javax.servlet-api:3.1.0" level="project" />
     <orderEntry type="library" name="Leiningen: javax.xml.bind/jaxb-api:2.3.0" level="project" />
     <orderEntry type="library" name="Leiningen: json-html:0.4.7" level="project" />
     <orderEntry type="library" name="Leiningen: kee-frame:1.1.2" level="project" />
     <orderEntry type="library" name="Leiningen: lambdaisland/deep-diff:0.0-47" level="project" />
-    <orderEntry type="library" name="Leiningen: luminus-jetty:0.2.3" level="project" />
+    <orderEntry type="library" name="Leiningen: luminus-http-kit:0.2.0" level="project" />
     <orderEntry type="library" name="Leiningen: luminus-transit:0.1.5" level="project" />
     <orderEntry type="library" name="Leiningen: luminus/ring-ttl-session:0.3.3" level="project" />
     <orderEntry type="library" name="Leiningen: markdown-clj:1.11.3" level="project" />
@@ -130,6 +131,7 @@
     <orderEntry type="library" name="Leiningen: net.cgrand/macrovich:0.2.1" level="project" />
     <orderEntry type="library" name="Leiningen: net.java.dev.jna/jna:5.12.1" level="project" />
     <orderEntry type="library" name="Leiningen: net.jodah/expiringmap:0.5.9" level="project" />
+    <orderEntry type="library" name="Leiningen: net.unit8/fressian-cljs:0.2.0" level="project" />
     <orderEntry type="library" name="Leiningen: nrepl:1.0.0" level="project" />
     <orderEntry type="library" name="Leiningen: ns-tracker:0.4.0" level="project" />
     <orderEntry type="library" name="Leiningen: org.apache.activemq/artemis-commons:1.4.0" level="project" />
@@ -153,6 +155,7 @@
     <orderEntry type="library" name="Leiningen: org.clojure/core.memoize:1.0.253" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/core.rrb-vector:0.1.2" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/core.specs.alpha:0.2.62" level="project" />
+    <orderEntry type="library" name="Leiningen: org.clojure/data.fressian:0.2.1" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/data.json:0.2.6" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/data.priority-map:1.1.0" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/google-closure-library-third-party:0.0-20211011-0726fdeb" level="project" />
@@ -169,29 +172,6 @@
     <orderEntry type="library" name="Leiningen: org.codehaus.janino/commons-compiler-jdk:2.6.1" level="project" />
     <orderEntry type="library" name="Leiningen: org.codehaus.janino/commons-compiler:2.6.1" level="project" />
     <orderEntry type="library" name="Leiningen: org.codehaus.mojo/animal-sniffer-annotations:1.14" level="project" />
-    <orderEntry type="library" name="Leiningen: org.eclipse.jetty.http2/http2-common:10.0.7" level="project" />
-    <orderEntry type="library" name="Leiningen: org.eclipse.jetty.http2/http2-hpack:10.0.7" level="project" />
-    <orderEntry type="library" name="Leiningen: org.eclipse.jetty.http2/http2-server:10.0.7" level="project" />
-    <orderEntry type="library" name="Leiningen: org.eclipse.jetty.toolchain/jetty-servlet-api:4.0.6" level="project" />
-    <orderEntry type="library" name="Leiningen: org.eclipse.jetty.websocket/websocket-core-common:10.0.7" level="project" />
-    <orderEntry type="library" name="Leiningen: org.eclipse.jetty.websocket/websocket-core-server:10.0.7" level="project" />
-    <orderEntry type="library" name="Leiningen: org.eclipse.jetty.websocket/websocket-jetty-api:10.0.7" level="project" />
-    <orderEntry type="library" name="Leiningen: org.eclipse.jetty.websocket/websocket-jetty-common:10.0.7" level="project" />
-    <orderEntry type="library" name="Leiningen: org.eclipse.jetty.websocket/websocket-jetty-server:10.0.7" level="project" />
-    <orderEntry type="library" name="Leiningen: org.eclipse.jetty.websocket/websocket-servlet:10.0.7" level="project" />
-    <orderEntry type="library" name="Leiningen: org.eclipse.jetty/jetty-alpn-java-server:10.0.7" level="project" />
-    <orderEntry type="library" name="Leiningen: org.eclipse.jetty/jetty-alpn-server:10.0.7" level="project" />
-    <orderEntry type="library" name="Leiningen: org.eclipse.jetty/jetty-annotations:10.0.7" level="project" />
-    <orderEntry type="library" name="Leiningen: org.eclipse.jetty/jetty-http:10.0.7" level="project" />
-    <orderEntry type="library" name="Leiningen: org.eclipse.jetty/jetty-io:10.0.7" level="project" />
-    <orderEntry type="library" name="Leiningen: org.eclipse.jetty/jetty-jndi:10.0.7" level="project" />
-    <orderEntry type="library" name="Leiningen: org.eclipse.jetty/jetty-plus:10.0.7" level="project" />
-    <orderEntry type="library" name="Leiningen: org.eclipse.jetty/jetty-security:10.0.7" level="project" />
-    <orderEntry type="library" name="Leiningen: org.eclipse.jetty/jetty-server:10.0.7" level="project" />
-    <orderEntry type="library" name="Leiningen: org.eclipse.jetty/jetty-servlet:10.0.7" level="project" />
-    <orderEntry type="library" name="Leiningen: org.eclipse.jetty/jetty-util:10.0.7" level="project" />
-    <orderEntry type="library" name="Leiningen: org.eclipse.jetty/jetty-webapp:10.0.7" level="project" />
-    <orderEntry type="library" name="Leiningen: org.eclipse.jetty/jetty-xml:10.0.7" level="project" />
     <orderEntry type="library" name="Leiningen: org.flatland/ordered:1.5.9" level="project" />
     <orderEntry type="library" name="Leiningen: org.fressian/fressian:0.6.5" level="project" />
     <orderEntry type="library" name="Leiningen: org.javassist/javassist:3.18.1-GA" level="project" />
@@ -200,9 +180,6 @@
     <orderEntry type="library" name="Leiningen: org.jboss.xnio/xnio-api:3.8.0.Final" level="project" />
     <orderEntry type="library" name="Leiningen: org.jboss.xnio/xnio-nio:3.8.0.Final" level="project" />
     <orderEntry type="library" name="Leiningen: org.msgpack/msgpack:0.6.12" level="project" />
-    <orderEntry type="library" name="Leiningen: org.ow2.asm/asm-analysis:9.2" level="project" />
-    <orderEntry type="library" name="Leiningen: org.ow2.asm/asm-commons:9.2" level="project" />
-    <orderEntry type="library" name="Leiningen: org.ow2.asm/asm-tree:9.2" level="project" />
     <orderEntry type="library" name="Leiningen: org.ow2.asm/asm:9.2" level="project" />
     <orderEntry type="library" name="Leiningen: org.slf4j/jcl-over-slf4j:1.7.7" level="project" />
     <orderEntry type="library" name="Leiningen: org.slf4j/jul-to-slf4j:1.7.7" level="project" />
@@ -214,6 +191,7 @@
     <orderEntry type="library" name="Leiningen: org.wildfly.client/wildfly-client-config:1.0.1.Final" level="project" />
     <orderEntry type="library" name="Leiningen: org.wildfly.common/wildfly-common:1.5.2.Final" level="project" />
     <orderEntry type="library" name="Leiningen: org.yaml/snakeyaml:1.31" level="project" />
+    <orderEntry type="library" name="Leiningen: persistent-sorted-set:0.1.4" level="project" />
     <orderEntry type="library" name="Leiningen: pez/clerk:1.0.0" level="project" />
     <orderEntry type="library" name="Leiningen: pjstadig/humane-test-output:0.11.0" level="project" />
     <orderEntry type="library" name="Leiningen: potemkin:0.4.5" level="project" />
@@ -223,6 +201,7 @@
     <orderEntry type="library" name="Leiningen: re-com:2.8.0" level="project" />
     <orderEntry type="library" name="Leiningen: re-frame:1.2.0" level="project" />
     <orderEntry type="library" name="Leiningen: re-frisk:1.6.0" level="project" />
+    <orderEntry type="library" name="Leiningen: re-posh:0.3.3" level="project" />
     <orderEntry type="library" name="Leiningen: reagent:1.1.1" level="project" />
     <orderEntry type="library" name="Leiningen: realize:2019-04-24" level="project" />
     <orderEntry type="library" name="Leiningen: riddley:0.1.12" level="project" />
@@ -234,7 +213,6 @@
     <orderEntry type="library" name="Leiningen: ring/ring-devel:1.9.6" level="project" />
     <orderEntry type="library" name="Leiningen: ring/ring-headers:0.3.0" level="project" />
     <orderEntry type="library" name="Leiningen: ring/ring-mock:0.4.0" level="project" />
-    <orderEntry type="library" name="Leiningen: ring/ring-servlet:1.9.4" level="project" />
     <orderEntry type="library" name="Leiningen: ring/ring-ssl:0.3.0" level="project" />
     <orderEntry type="library" name="Leiningen: selmer:1.12.55" level="project" />
     <orderEntry type="library" name="Leiningen: tech.droit/clj-diff:1.0.1" level="project" />

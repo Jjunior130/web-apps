@@ -1,7 +1,8 @@
 {:nrepl {:port 7002}
  :builds
         {:app
-               {:target     :browser
+               {:compiler-options {:externs ["datascript/externs.js"]}
+                :target     :browser
                 :output-dir "target/cljsbuild/public/js"
                 :asset-path "/js"
                 :modules    {:app {:entries [web-apps.app]}}
