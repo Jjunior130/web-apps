@@ -30,14 +30,12 @@
       (recur (:message (a/<! client))))))
 
 (defn handler [{:keys [ws-channel] session :session/key :as request}]
-  (when ws-channel
-    (swap! connections #(merge-with (fn [old new]
-                                      (when old (a/close! old))
-                                      (client>server new)
-                                      new)
-                                    %
-                                    {session ws-channel}))
-    (log/spy @connections)))
+  (client>server ws-channel)
+  (swap! connections #(merge-with (fn [old new]
+                                    (when old (a/close! old))
+                                    new)
+                                  %
+                                  {session ws-channel})))
 
 
 (def websocket-routes
