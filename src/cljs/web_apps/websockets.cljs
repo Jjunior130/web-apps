@@ -20,10 +20,12 @@
       (throw (js/Error. "Websocket is not available!")))
     nil))
 
-(rp/reg-event-ds
+(rp/reg-event-fx
   ::server>clients
-  (fn [_ [_ tx-datoms]]
-    tx-datoms
+  (fn [_ [_ db tx-datoms]]
+    (d/reset-conn! conn db)
+    nil
+    #_tx-datoms
     #_(update db :messages #(vec (take-last 10 (conj % tx-datoms))))))
 
 (defn- server>clients! [server]

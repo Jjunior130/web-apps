@@ -1,6 +1,11 @@
 {;; norm1 installs the user table schema into Datomic
  :project-name/norm1
- {:txes [[{:db/ident              :chat/message
+ {:txes [[{:db/ident              :from
+           :db/valueType          :db.type/string
+           :db/cardinality        :db.cardinality/one
+           :db/id                 #db/id [:db.part/db]
+           :db.install/_attribute :db.part/db}
+          {:db/ident              :message
            :db/valueType          :db.type/string
            :db/cardinality        :db.cardinality/many
            :db/id                 #db/id [:db.part/db]

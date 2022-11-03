@@ -9,6 +9,15 @@
           :start (d/create-conn)
           :stop nil)
 
+(defn db []
+  (d/db conn))
+
+(defn transact [tx]
+  (d/transact conn tx))
+
+(defn datoms [index & args]
+  (apply d/datoms (d/db conn) index args))
+
 #_(defn install-schema
     "This function expected to be called at system start up.
 

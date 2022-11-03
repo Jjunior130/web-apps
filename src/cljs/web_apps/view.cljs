@@ -5,8 +5,7 @@
     [reagent.core :as r]
     [re-frame.core :as rf]
     [re-posh.core :as rp]
-    [web-apps.websockets :as ws]
-    [taoensso.timbre :as log]))
+    [web-apps.websockets :as ws]))
 
 (defn nav-link [title page]
   [:a.navbar-item
@@ -37,7 +36,7 @@
 (rp/reg-query-sub
   ::messages
   '[:find ?msg ?t
-    :where [_ :chat/message ?msg ?t]])
+    :where [_ :message ?msg ?t]])
 
 (defn message-list []
   [:ul
@@ -64,8 +63,10 @@
         #(reset! value (-> % .-target .-value))
         :on-key-down
         #(when (= (.-keyCode %) 13)
-           (rf/dispatch [::ws/client>server
-                         [[:db/add -1 :chat/message @value]]])
+           (when-let [v @value]
+             (rf/dispatch [::ws/client>server
+                           [{:db/id   -1
+                             :message v}]]))
            (reset! value nil))}])))
 
 (defn home-page []
