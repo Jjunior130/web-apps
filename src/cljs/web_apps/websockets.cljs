@@ -44,7 +44,7 @@
     (when server
       (when server (a/close! server))
       (merge
-        {:db (assoc server :server-socket nil)}
+        {:db (assoc db :server-socket nil)}
         (when reconnect?
           {::open-socket
            (str (if (= "https:" (-> js/document .-location .-protocol))
