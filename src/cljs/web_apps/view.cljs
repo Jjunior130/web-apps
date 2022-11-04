@@ -15,19 +15,19 @@
 
 (defn navbar []
   (r/with-let [expanded? (r/atom false)]
-              [:nav.navbar.is-info>div.container
-               [:div.navbar-brand
-                [:a.navbar-item {:href "/" :style {:font-weight :bold}} "web-apps"]
-                [:span.navbar-burger.burger
-                 {:data-target :nav-menu
-                  :on-click    #(swap! expanded? not)
-                  :class       (when @expanded? :is-active)}
-                 [:span] [:span] [:span]]]
-               [:div#nav-menu.navbar-menu
-                {:class (when @expanded? :is-active)}
-                [:div.navbar-start
-                 [nav-link "Home" :home]
-                 [nav-link "About" :about]]]]))
+    [:nav.navbar.is-info>div.container
+     [:div.navbar-brand
+      [:a.navbar-item {:href "/" :style {:font-weight :bold}} "web-apps"]
+      [:span.navbar-burger.burger
+       {:data-target :nav-menu
+        :on-click    #(swap! expanded? not)
+        :class       (when @expanded? :is-active)}
+       [:span] [:span] [:span]]]
+     [:div#nav-menu.navbar-menu
+      {:class (when @expanded? :is-active)}
+      [:div.navbar-start
+       [nav-link "Home" :home]
+       [nav-link "About" :about]]]]))
 
 (defn about-page []
   [:section.section>div.container>div.content
@@ -40,9 +40,10 @@
 
 (defn message-list []
   [:ul
-   (for [[i [message]] (take-last 10 (map-indexed vector
-                                                  (sort-by second @(rf/subscribe
-                                                                     [::messages]))))]
+   (for [[i [message]] (take-last 10
+                         (map-indexed vector
+                           (sort-by second @(rf/subscribe
+                                              [::messages]))))]
      ^{:key i}
      [:li message])])
 
