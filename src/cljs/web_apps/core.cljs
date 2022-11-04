@@ -45,20 +45,15 @@
   (rf/clear-subscription-cache!)
   (kf/start! {:routes         routing/routes
               :hash-routing?  true
-              #_#_
-              :log            {:level        :debug
-                               :ns-blacklist ["kee-frame.event-logger"]}
+              #_#_:log {:level        :debug
+                        :ns-blacklist ["kee-frame.event-logger"]}
               :root-component [view/root-component]}))
 
 (kf/reg-event-fx
   ::init-client
-  (fn [_ _]
-    {::ws/open-socket
-     (str (if (= "https:" (-> js/document .-location .-protocol))
-            "wss://"
-            "ws://")
-          (-> js/document .-location .-host)
-          "/ws")}))
+  [(rf/inject-cofx ::ws/url)]
+  (fn [{:keys [ws/url]} _]
+    {::ws/open-socket url}))
 
 (defn init! []
   (ajax/load-interceptors!)

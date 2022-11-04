@@ -7,7 +7,7 @@
 
 (defn wrap-dev [handler]
   (-> handler
-      wrap-reload
-      wrap-error-page
-      ;; disable prone middleware, it can not handle async
-      (cond-> (not (env :async?)) (wrap-exceptions {:app-namespaces ['web-apps]}))))
+    wrap-reload
+    wrap-error-page
+    ;; disable prone middleware, it can not handle async
+    (cond-> (not (env :async?)) (wrap-exceptions {:app-namespaces ['web-apps]}))))

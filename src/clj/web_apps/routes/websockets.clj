@@ -12,20 +12,16 @@
 (defmulti on-event-receive
           (fn [client [event-id]] event-id))
 
-(defn sync-db [client db]
-  (a/go
-    (a/>! client [:web-apps.websockets/server>clients db])))
-
 (defmethod on-event-receive ::client>server
   [client [_ tx]]
   (db/transact tx)
-  (sync-db clients (db/db)))
+  (db/sync-db clients))
 
 (defmethod on-event-receive nil
   [client [_ tx]])
 
 (defn client>server [client]
-  (sync-db client (db/db))
+  (db/sync-db client)
   (a/tap server client)
   (a/go-loop [event (:message (a/<! client))]
     (when event

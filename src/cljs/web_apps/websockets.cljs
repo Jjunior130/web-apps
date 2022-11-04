@@ -6,10 +6,20 @@
             [re-posh.core :as rp]
             [chord.client :as chord]
             [cljs.core.async :as a]
-            [web-apps.db :refer [conn]]
-            [datascript.core :as d])
+            [web-apps.db :as db])
   (:require-macros
     [cljs.core.async.macros :as a]))
+
+(rf/reg-cofx
+  ::url
+  (fn [cofx]
+    (assoc cofx
+      ::url (str (if (= "https:" (-> js/document
+                                   .-location .-protocol))
+                   "wss://"
+                   "ws://")
+              (-> js/document .-location .-host)
+              "/ws"))))
 
 (kf/reg-event-db
   ::client>server
@@ -22,45 +32,40 @@
 
 (rp/reg-event-fx
   ::server>clients
-  (fn [_ [_ db tx-datoms]]
-    (d/reset-conn! conn db)
-    nil
-    #_tx-datoms
-    #_(update db :messages #(vec (take-last 10 (conj % tx-datoms))))))
+  (fn [_ [_ db]]
+    (db/sync-db db)
+    nil))
 
 (defn- server>clients! [server]
   (a/go-loop []
-             (if-let [tx-event (:message (a/<! server))]
-               (do
-                 (rf/dispatch
-                   tx-event)
-                 (recur))
-               (rf/dispatch [::disconnected false]))))
+    (if-let [db-event (:message (a/<! server))]
+      (do
+        (rf/dispatch
+          db-event)
+        (recur))
+      (rf/dispatch [::disconnected false]))))
 
 (kf/reg-event-fx
   ::disconnected
+  [(rf/inject-cofx ::url)]
   (fn [{{server :server-socket
          :as    db} :db
+        url         ::url
         :as         ctx}
        [reconnect?]]
+    (cljs.pprint/pprint
+      (str "disconnected event: "
+        (if server true false)))
     (when server
       (when server (a/close! server))
       (merge
         {:db (assoc db :server-socket nil)}
         (when reconnect?
-          {::open-socket
-           (str (if (= "https:" (-> js/document .-location .-protocol))
-                  "wss://"
-                  "ws://")
-                (-> js/document .-location .-host)
-                "/ws")})))))
+          {::open-socket url})))))
 
 (kf/reg-event-db
   ::reg-server>clients
-  (fn [{old-server :server-socket
-        :as        db}
-       [new-server]]
-    (when old-server (a/close! old-server))
+  (fn [db [new-server]]
     (server>clients! new-server)
     (assoc db
       :server-socket new-server)))
@@ -69,7 +74,7 @@
   ::error
   (fn [ctx [url error]]
     (js/alert (str "Error connecting to server: " error "\n"
-                   "Url: " url))))
+                "Url: " url))))
 
 (rf/reg-fx
   ::open-socket

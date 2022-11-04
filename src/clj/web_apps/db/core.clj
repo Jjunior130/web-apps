@@ -1,16 +1,21 @@
 (ns web-apps.db.core
   (:require
     [datascript.core :as d]
+    [clojure.core.async :as a]
     #_[io.rkn.conformity :as c]
     [mount.core :refer [defstate]]
     [clojure.tools.logging :as log]))
 
 (defstate conn
-          :start (d/create-conn)
-          :stop nil)
+  :start (d/create-conn)
+  :stop nil)
 
 (defn db []
   (d/db conn))
+
+(defn sync-db [client]
+  (a/go
+    (a/>! client [:web-apps.websockets/server>clients (db)])))
 
 (defn transact [tx]
   (d/transact conn tx))
@@ -40,7 +45,7 @@
            [?e :db/ident ?ident]
            [(namespace ?ident) ?ns]
            [((comp not contains?) ?system-ns ?ns)]]
-         (d/db conn) system-ns)))
+      (d/db conn) system-ns)))
 
 #_(defn show-transaction
     "Show all the transaction data
@@ -73,11 +78,11 @@
     => show first-name field"
   [db attr val]
   (d/entity db
-            ;;find Specifications using ':find ?a .' will return single scalar
-            (d/q '[:find ?e .
-                   :in $ ?attr ?val
-                   :where [?e ?attr ?val]]
-                 db attr val)))
+    ;;find Specifications using ':find ?a .' will return single scalar
+    (d/q '[:find ?e .
+           :in $ ?attr ?val
+           :where [?e ?attr ?val]]
+      db attr val)))
 
 
 (defn find-user [db id]
