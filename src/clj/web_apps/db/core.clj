@@ -3,11 +3,11 @@
     [datascript.core :as d]
     [clojure.core.async :as a]
     #_[io.rkn.conformity :as c]
-    [mount.core :refer [defstate]]
-    [clojure.tools.logging :as log]))
+    [mount.core :refer [defstate]]))
 
 (def schema
-  {:message {:db/unique :db.unique/identity}})
+  {:message {:db/cardinality :db.cardinality/one}
+   :posted {:db/cardinality :db.cardinality/one}})
 
 (defstate conn
   :start (d/create-conn schema)

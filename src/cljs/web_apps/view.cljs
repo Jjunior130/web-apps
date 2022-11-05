@@ -36,17 +36,19 @@
 (rp/reg-query-sub
   ::messages
   '[:find ?msg ?t
-    :where [_ :message ?msg ?t]])
+    :where
+    [?e :message ?msg]
+    [?e :posted ?t]])
 
 (defn message-list []
   (fn []
     [:ul
-     (for [[i [message]] (take-last 10
-                           (map-indexed vector
-                             (sort-by second @(rf/subscribe
-                                                [::messages]))))]
+     (for [[i [message t]] (take-last 10
+                             (map-indexed vector
+                               (sort-by second @(rf/subscribe
+                                                  [::messages]))))]
        ^{:key i}
-       [:li message])]))
+       [:li ((clojure.string/split (str t) " ") 4) " - " message])]))
 
 (defn message-input
   "type in a message and send it to the server.
@@ -67,7 +69,8 @@
         #(when (= (.-keyCode %) 13)
            (when-let [v @value]
              (rf/dispatch [::ws/client>server
-                           [{:message v}]]))
+                           [{:message v
+                             :posted  (js/Date.)}]]))
            (reset! value nil))}])))
 
 (defn home-page []
