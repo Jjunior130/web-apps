@@ -27,7 +27,7 @@
        [datoms]]
     (if server
       (a/go (a/>! server [:web-apps.routes.websockets/client>server datoms]))
-      (throw (js/Error. "Websocket is not available!")))
+      (rf/dispatch [::disconnected true]))
     nil))
 
 (rp/reg-event-fx
