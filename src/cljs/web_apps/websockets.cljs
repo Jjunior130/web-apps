@@ -53,9 +53,6 @@
         url         ::url
         :as         ctx}
        [reconnect?]]
-    (cljs.pprint/pprint
-      (str "disconnected event: "
-        (if server true false)))
     (when server
       (when server (a/close! server))
       (merge

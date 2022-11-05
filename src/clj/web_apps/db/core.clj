@@ -6,8 +6,11 @@
     [mount.core :refer [defstate]]
     [clojure.tools.logging :as log]))
 
+(def schema
+  {:message {:db/unique :db.unique/identity}})
+
 (defstate conn
-  :start (d/create-conn)
+  :start (d/create-conn schema)
   :stop nil)
 
 (defn db []

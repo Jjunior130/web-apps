@@ -39,13 +39,14 @@
     :where [_ :message ?msg ?t]])
 
 (defn message-list []
-  [:ul
-   (for [[i [message]] (take-last 10
-                         (map-indexed vector
-                           (sort-by second @(rf/subscribe
-                                              [::messages]))))]
-     ^{:key i}
-     [:li message])])
+  (fn []
+    [:ul
+     (for [[i [message]] (take-last 10
+                           (map-indexed vector
+                             (sort-by second @(rf/subscribe
+                                                [::messages]))))]
+       ^{:key i}
+       [:li message])]))
 
 (defn message-input
   "type in a message and send it to the server.
