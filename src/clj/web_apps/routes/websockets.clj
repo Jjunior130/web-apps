@@ -1,6 +1,5 @@
 (ns web-apps.routes.websockets
   (:require
-    [clojure.tools.logging :as log]
     [chord.http-kit :refer [wrap-websocket-handler]]
     [web-apps.db.core :as db]
     [clojure.core.async :as a]))
@@ -10,7 +9,7 @@
 (def server "A clojure.core.async/mult." (a/mult clients))
 
 (defmulti on-event-receive
-          (fn [client [event-id]] event-id))
+  (fn [client [event-id]] event-id))
 
 (defmethod on-event-receive ::client>server
   [client [_ tx]]

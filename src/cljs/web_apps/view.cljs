@@ -39,13 +39,14 @@
     :where [_ :message ?msg ?t]])
 
 (defn message-list []
-  [:ul
-   (for [[i [message]] (take-last 10
-                         (map-indexed vector
-                           (sort-by second @(rf/subscribe
-                                              [::messages]))))]
-     ^{:key i}
-     [:li message])])
+  (fn []
+    [:ul
+     (for [[i [message]] (take-last 10
+                           (map-indexed vector
+                             (sort-by second @(rf/subscribe
+                                                [::messages]))))]
+       ^{:key i}
+       [:li message])]))
 
 (defn message-input
   "type in a message and send it to the server.
@@ -66,8 +67,7 @@
         #(when (= (.-keyCode %) 13)
            (when-let [v @value]
              (rf/dispatch [::ws/client>server
-                           [{:db/id   -1
-                             :message v}]]))
+                           [{:message v}]]))
            (reset! value nil))}])))
 
 (defn home-page []
