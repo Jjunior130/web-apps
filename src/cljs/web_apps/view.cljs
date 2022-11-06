@@ -46,10 +46,11 @@
 (defn message-list []
   (fn []
     [:ul
-     (for [[i [message t username]] (take-last 10
-                                      (map-indexed vector
-                                        (sort-by second @(rf/subscribe
-                                                           [::messages]))))]
+     (for [[i [message t username]]
+           (take-last 10
+             (map-indexed vector
+               (sort-by second @(rf/subscribe
+                                  [::messages]))))]
        ^{:key i}
        [:li ((clojure.string/split (str t) " ") 4)
         " - "
@@ -68,9 +69,10 @@
   (fn [{{:keys [session-id]} :db
         now :now}
        [value]]
-    (rf/dispatch [::ws/client>server [{:user [:session-id session-id]
-                                       :message value
-                                       :posted now}]])
+    (rf/dispatch [::ws/client>server
+                  [{:user [:session-id session-id]
+                    :posted now
+                    :message value}]])
     nil))
 
 
