@@ -44,7 +44,8 @@
                  [thheller/shadow-cljs "2.20.7" :scope "provided"]
                  [jarohen/chord "0.8.1"]
                  [re-posh "0.3.3"]
-                 [datascript "1.3.15"]]
+                 [datascript "1.3.15"]
+                 [eigenhombre/namejen "0.1.23"]]
 
   :min-lein-version "2.0.0"
   
