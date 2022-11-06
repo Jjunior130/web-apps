@@ -83,6 +83,7 @@
     <orderEntry type="library" name="Leiningen: day8.re-frame/http-fx:0.2.4" level="project" />
     <orderEntry type="library" name="Leiningen: day8.re-frame/test:0.1.5" level="project" />
     <orderEntry type="library" name="Leiningen: denistakeda/posh:0.5.7" level="project" />
+    <orderEntry type="library" name="Leiningen: eigenhombre/namejen:0.1.23" level="project" />
     <orderEntry type="library" name="Leiningen: expiring-map:0.1.9" level="project" />
     <orderEntry type="library" name="Leiningen: expound:0.9.0" level="project" />
     <orderEntry type="library" name="Leiningen: fipp:0.6.26" level="project" />

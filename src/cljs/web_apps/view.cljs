@@ -35,20 +35,27 @@
 
 (rp/reg-query-sub
   ::messages
-  '[:find ?msg ?t
+  '[:find ?msg ?t ?username
     :where
+    [?e :user ?u]
+    [?u :username ?username]
     [?e :message ?msg]
     [?e :posted ?t]])
 
 (defn message-list []
   (fn []
     [:ul
-     (for [[i [message t]] (take-last 10
-                             (map-indexed vector
-                               (sort-by second @(rf/subscribe
-                                                  [::messages]))))]
+     (for [[i [message t username]] (take-last 10
+                                      (map-indexed vector
+                                        (sort-by second @(rf/subscribe
+                                                           [::messages]))))]
        ^{:key i}
-       [:li ((clojure.string/split (str t) " ") 4) " - " message])]))
+       [:li ((clojure.string/split (str t) " ") 4)
+        " - "
+        username ": "
+        message])]))
+
+(def session-id (comp deref #(rf/subscribe [::ws/session-id])))
 
 (defn message-input
   "type in a message and send it to the server.
@@ -57,8 +64,7 @@
   the message to the server when the enter key
   is pressed."
   []
-  (let [value (reagent.core/atom nil)
-        session-id (rf/subscribe [::ws/session-id])]
+  (let [value (reagent.core/atom nil)]
     (fn []
       [:input.form-control
        {:type        :text
@@ -67,10 +73,10 @@
         :on-change
         #(reset! value (-> % .-target .-value))
         :on-key-down
-        #(when (and @session-id (= (.-keyCode %) 13))
+        #(when (and (session-id) (= (.-keyCode %) 13))
            (when-let [v @value]
              (rf/dispatch [::ws/client>server
-                           [{:user    [:session-id @session-id]
+                           [{:user    [:session-id (session-id)]
                              :message v
                              :posted  (js/Date.)}]]))
            (reset! value nil))}])))

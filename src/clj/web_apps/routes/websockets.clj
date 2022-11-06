@@ -19,9 +19,13 @@
 (defmethod on-event-receive nil
   [client [_ tx]])
 
-(defn client>server [[client session-id]]
+(defn id-client [client session-id]
   (a/go (a/>! client [:web-apps.websockets/init-server>clients session-id]))
-  (db/transact [{:session-id session-id}])
+  (db/transact [{:session-id session-id
+                 :username   (db/username session-id)}]))
+
+(defn client>server [[client session-id]]
+  (id-client client session-id)
   (db/sync-db client)
   (a/tap server client)
   (a/go-loop [event (:message (a/<! client))]

@@ -3,13 +3,15 @@
     [datascript.core :as d]
     [clojure.core.async :as a]
     #_[io.rkn.conformity :as c]
-    [mount.core :refer [defstate]]))
+    [mount.core :refer [defstate]]
+    [namejen.names :as n]))
 
 (def schema
   {:message    {:db/cardinality :db.cardinality/one}
    :posted     {:db/cardinality :db.cardinality/one}
    :session-id {:db/unique :db.unique/identity}
-   :user {:db/cardinality :db.cardinality/one}})
+   :user {:db/cardinality :db.cardinality/one}
+   :username {:db/unique :db.unique/value}})
 
 (defstate conn
   :start (d/create-conn schema)
@@ -17,6 +19,16 @@
 
 (defn db []
   (d/db conn))
+
+(defn username [session-id]
+ (or
+   (d/q '[:find ?username .
+          :in $ ?s-id
+          :where
+          [?s :session-id ?s-id]
+          [?s :username ?username]]
+     (db) session-id)
+   (n/generic-name)))
 
 (defn sync-db [client]
   (a/go
