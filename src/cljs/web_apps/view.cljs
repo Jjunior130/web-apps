@@ -57,7 +57,8 @@
   the message to the server when the enter key
   is pressed."
   []
-  (let [value (reagent.core/atom nil)]
+  (let [value (reagent.core/atom nil)
+        session-id @(rf/subscribe [::ws/session-id])]
     (fn []
       [:input.form-control
        {:type        :text
@@ -66,27 +67,29 @@
         :on-change
         #(reset! value (-> % .-target .-value))
         :on-key-down
-        #(when (= (.-keyCode %) 13)
+        #(when (and session-id (= (.-keyCode %) 13))
            (when-let [v @value]
              (rf/dispatch [::ws/client>server
-                           [{:message v
+                           [{:user    [:session-id session-id]
+                             :message v
                              :posted  (js/Date.)}]]))
            (reset! value nil))}])))
 
 (defn home-page []
-  [:section.section>div.container>div.content
-   [:div.container
-    [:div.row
-     [:div.col-md-12
-      [:h2 "Welcome to chat"]]]
-    [:div.row
-     [:div.col-sm-6
-      [message-list]]]
-    [:div.row
-     [:div.col-sm-6
-      [message-input]]]]
-   (when-let [docs @(rf/subscribe [:docs])]
-     [:div {:dangerouslySetInnerHTML {:__html (md->html docs)}}])])
+  (fn []
+   [:section.section>div.container>div.content
+    [:div.container
+     [:div.row
+      [:div.col-md-12
+       [:h2 "Welcome to chat"]]]
+     [:div.row
+      [:div.col-sm-6
+       [message-list]]]
+     [:div.row
+      [:div.col-sm-6
+       [message-input]]]]
+    (when-let [docs @(rf/subscribe [:docs])]
+      [:div {:dangerouslySetInnerHTML {:__html (md->html docs)}}])]))
 
 (defn root-component []
   [:div

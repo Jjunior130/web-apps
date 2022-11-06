@@ -30,6 +30,12 @@
       (rf/dispatch [::disconnected true]))
     nil))
 
+(kf/reg-event-db
+  ::init-server>clients
+  (fn [db [session-id]]
+    (assoc db
+      :session-id session-id)))
+
 (rp/reg-event-fx
   ::server>clients
   (fn [_ [_ db]]
