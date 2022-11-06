@@ -65,16 +65,13 @@
 (kf/reg-event-fx
   :input/on-key-down
   [(rf/inject-cofx ::now)]
-  (fn [{{:keys [session-id] server :server-socket} :db
-        now :now
-        :as ctx}
+  (fn [{{:keys [session-id]} :db
+        now :now}
        [value]]
-    (if server
-      (a/go (a/>! server [:web-apps.routes.websockets/client>server [{:user [:session-id session-id]
-                                                                      :message value
-                                                                      :posted now}]]))
-      (rf/dispatch [::disconnected true]))
-    ctx))
+    (rf/dispatch [::ws/client>server [{:user [:session-id session-id]
+                                       :message value
+                                       :posted now}]])
+    nil))
 
 
 (defn message-input

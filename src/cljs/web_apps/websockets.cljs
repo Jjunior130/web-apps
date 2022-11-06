@@ -45,7 +45,7 @@
   ::server>clients
   (fn [ctx [_ db]]
     (db/sync-db db)
-    ctx))
+    nil))
 
 (defn- server>clients! [server]
   (a/go-loop []
