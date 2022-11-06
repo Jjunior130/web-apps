@@ -5,7 +5,8 @@
     [reagent.core :as r]
     [re-frame.core :as rf]
     [re-posh.core :as rp]
-    [web-apps.websockets :as ws]))
+    [web-apps.websockets :as ws]
+    [cljs.core.async :as a]))
 
 (defn nav-link [title page]
   [:a.navbar-item
@@ -55,7 +56,26 @@
         username ": "
         message])]))
 
-(def session-id (comp deref #(rf/subscribe [::ws/session-id])))
+(rf/reg-cofx
+  ::now
+  (fn [cofx]
+    (assoc cofx
+      :now (js/Date.))))
+
+(kf/reg-event-fx
+  :input/on-key-down
+  [(rf/inject-cofx ::now)]
+  (fn [{{:keys [session-id] server :server-socket} :db
+        now :now
+        :as ctx}
+       [value]]
+    (if server
+      (a/go (a/>! server [:web-apps.routes.websockets/client>server [{:user [:session-id session-id]
+                                                                      :message value
+                                                                      :posted now}]]))
+      (rf/dispatch [::disconnected true]))
+    ctx))
+
 
 (defn message-input
   "type in a message and send it to the server.
@@ -73,12 +93,9 @@
         :on-change
         #(reset! value (-> % .-target .-value))
         :on-key-down
-        #(when (and (session-id) (= (.-keyCode %) 13))
+        #(when (= (.-keyCode %) 13)
            (when-let [v @value]
-             (rf/dispatch [::ws/client>server
-                           [{:user    [:session-id (session-id)]
-                             :message v
-                             :posted  (js/Date.)}]]))
+             (rf/dispatch [:input/on-key-down v]))
            (reset! value nil))}])))
 
 (defn home-page []

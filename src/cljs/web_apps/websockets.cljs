@@ -43,9 +43,9 @@
 
 (rp/reg-event-fx
   ::server>clients
-  (fn [_ [_ db]]
+  (fn [ctx [_ db]]
     (db/sync-db db)
-    nil))
+    ctx))
 
 (defn- server>clients! [server]
   (a/go-loop []
