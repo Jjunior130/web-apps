@@ -2,41 +2,21 @@
   (:require
     [kee-frame.core :as kf]
     [re-frame.core :as rf]
-    [ajax.core :as http]
     [web-apps.ajax :as ajax]
     [web-apps.routing :as routing]
     [web-apps.view :as view]
-    [web-apps.websockets :as ws]
-    [web-apps.db]))
-
-(rf/reg-event-fx
-  ::load-about-page
-  (constantly nil))
+    [web-apps.db]
+    [web-apps.setter :as setter]))
 
 (kf/reg-controller
   ::about-controller
   {:params (constantly true)
-   :start  [::load-about-page]})
-
-(rf/reg-sub
-  :docs
-  (fn [db _]
-    (:docs db)))
-
-(kf/reg-chain
-  ::load-home-page
-  (fn [_ _]
-    {:http-xhrio {:method          :get
-                  :uri             "/docs"
-                  :response-format (http/raw-response-format)
-                  :on-failure      [:common/set-error]}})
-  (fn [{:keys [db]} [_ docs]]
-    {:db (assoc db :docs docs)}))
+   :start  [::setter/load-about-page]})
 
 (kf/reg-controller
   ::home-controller
   {:params (constantly true)
-   :start  [::load-home-page]})
+   :start  [::setter/load-home-page]})
 
 ;; -------------------------
 ;; Initialize app
@@ -49,14 +29,7 @@
                         :ns-blacklist ["kee-frame.event-logger"]}
               :root-component [view/root-component]}))
 
-(kf/reg-event-fx
-  ::init-client
-  [(rf/inject-cofx ::ws/url)]
-  (fn [{url ::ws/url} _]
-    {:db {:now (js/Date.)}
-     ::ws/open-socket url}))
-
 (defn init! []
   (ajax/load-interceptors!)
-  (rf/dispatch [::init-client])
+  (rf/dispatch [::setter/init-client])
   (mount-components))

@@ -20,7 +20,7 @@
   [client [_ tx]])
 
 (defn id-client [client session-id]
-  (a/go (a/>! client [:web-apps.websockets/init-server>clients session-id]))
+  (a/go (a/>! client [:web-apps.setter/init-server>clients session-id]))
   (db/transact [{:session-id session-id
                  :username   (db/username session-id)}]))
 
