@@ -60,6 +60,6 @@
      [:div.col-sm-6
       ((clojure.string/split (str @(rf/subscribe [::getter/now])) " ") 4)
       " - "
-      @(rf/subscribe [::getter/username @(rf/subscribe [::ws/session-id])])
+      @(rf/subscribe [::getter/username @(rf/subscribe [::getter/session-id])])
       ": "
       [message-input]]]]])
