@@ -9,15 +9,15 @@
                  [com.cognitect/transit-clj "1.0.329"]
                  [com.cognitect/transit-cljs "0.8.280"]
                  [com.datomic/datomic-free "0.9.5697" :exclusions [org.slf4j/log4j-over-slf4j org.slf4j/slf4j-nop com.google.guava/guava]]
-                 [com.google.guava/guava "25.1-jre"]
+                 [com.google.guava/guava "31.1-jre"]
                  [com.google.javascript/closure-compiler-unshaded "v20220803"]
                  [cprop "0.1.19"]
                  [day8.re-frame/http-fx "0.2.4"]
                  [expound "0.9.0"]
                  [funcool/struct "1.4.0"]
-                 [io.rkn/conformity "0.5.1"]
+                 [io.rkn/conformity "0.5.4"]
                  [json-html "0.4.7"]
-                 [kee-frame "1.1.2" :exclusions [metosin/reitit-core org.clojure/core.async]]
+                 [kee-frame "1.3.2" :exclusions [metosin/reitit-core org.clojure/core.async]]
                  [luminus-http-kit "0.2.0"]
                  [luminus-transit "0.1.5"]
                  [luminus/ring-ttl-session "0.3.3"]
@@ -35,13 +35,13 @@
                  [org.webjars.npm/bulma "0.9.4"]
                  [org.webjars.npm/material-icons "1.10.8"]
                  [org.webjars/webjars-locator "0.45"]
-                 [re-frame "1.2.0"]
+                 [re-frame "1.3.0"]
                  [reagent "1.1.1"]
                  [ring-webjars "0.2.0"]
                  [ring/ring-core "1.9.6"]
                  [ring/ring-defaults "0.3.4"]
                  [selmer "1.12.55"]
-                 [thheller/shadow-cljs "2.20.3" :scope "provided"]
+                 [thheller/shadow-cljs "2.20.7" :scope "provided"]
                  [jarohen/chord "0.8.1"]
                  [re-posh "0.3.3"]
                  [datascript "1.3.15"]]
@@ -54,7 +54,7 @@
   :target-path "target/%s/"
   :main ^:skip-aot web-apps.core
 
-  :plugins [[lein-kibit "0.1.2"]] 
+  :plugins [[lein-kibit "0.1.8"]]
   :clean-targets ^{:protect false}
   [:target-path "target/cljsbuild"]
   

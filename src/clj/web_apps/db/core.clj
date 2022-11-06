@@ -6,8 +6,10 @@
     [mount.core :refer [defstate]]))
 
 (def schema
-  {:message {:db/cardinality :db.cardinality/one}
-   :posted {:db/cardinality :db.cardinality/one}})
+  {:message    {:db/cardinality :db.cardinality/one}
+   :posted     {:db/cardinality :db.cardinality/one}
+   :session-id {:db/unique :db.unique/identity}
+   :user {:db/cardinality :db.cardinality/one}})
 
 (defstate conn
   :start (d/create-conn schema)

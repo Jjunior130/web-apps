@@ -10,6 +10,7 @@
   (:require-macros
     [cljs.core.async.macros :as a]))
 
+
 (rf/reg-cofx
   ::url
   (fn [cofx]
@@ -21,6 +22,10 @@
               (-> js/document .-location .-host)
               "/ws"))))
 
+(rf/reg-sub
+  ::session-id
+  #(:session-id %))
+
 (kf/reg-event-db
   ::client>server
   (fn [{server :server-socket :as db}
@@ -29,6 +34,12 @@
       (a/go (a/>! server [:web-apps.routes.websockets/client>server datoms]))
       (rf/dispatch [::disconnected true]))
     nil))
+
+(kf/reg-event-db
+  ::init-server>clients
+  (fn [db [session-id]]
+    (assoc db
+      :session-id session-id)))
 
 (rp/reg-event-fx
   ::server>clients
