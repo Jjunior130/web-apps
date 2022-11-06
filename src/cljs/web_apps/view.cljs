@@ -67,11 +67,11 @@
   :input/on-key-down
   [(rf/inject-cofx ::now)]
   (fn [{{:keys [session-id]} :db
-        now :now}
+        now                  :now}
        [value]]
     (rf/dispatch [::ws/client>server
-                  [{:user [:session-id session-id]
-                    :posted now
+                  [{:user    [:session-id session-id]
+                    :posted  now
                     :message value}]])
     nil))
 
@@ -97,21 +97,49 @@
              (rf/dispatch [:input/on-key-down v]))
            (reset! value nil))}])))
 
+(rp/reg-query-sub
+  ::username
+  '[:find ?username .
+    :in $ ?s-id
+    :where
+    [?u :session-id ?s-id]
+    [?u :username ?username]])
+
+(rf/reg-sub
+  ::now
+  #(:now %))
+
+(kf/reg-event-db
+  ::timer
+  (fn [db [now]]
+    (assoc db
+      :now now)))
+
+(defonce now
+  (js/setInterval
+    #(let [now (js/Date.)]
+       (rf/dispatch [::timer now]))
+    1000))
+
 (defn home-page []
   (fn []
-   [:section.section>div.container>div.content
-    [:div.container
-     [:div.row
-      [:div.col-md-12
-       [:h2 "Welcome to chat"]]]
-     [:div.row
-      [:div.col-sm-6
-       [message-list]]]
-     [:div.row
-      [:div.col-sm-6
-       [message-input]]]]
-    (when-let [docs @(rf/subscribe [:docs])]
-      [:div {:dangerouslySetInnerHTML {:__html (md->html docs)}}])]))
+    [:section.section>div.container>div.content
+     [:div.container
+      [:div.row
+       [:div.col-md-12
+        [:h2 "Welcome to chat"]]]
+      [:div.row
+       [:div.col-sm-6
+        [message-list]]]
+      [:div.row
+       [:div.col-sm-6
+        ((clojure.string/split (str @(rf/subscribe [::now])) " ") 4)
+        " - "
+        @(rf/subscribe [::username @(rf/subscribe [::ws/session-id])])
+        ": "
+        [message-input]]]]
+     (when-let [docs @(rf/subscribe [:docs])]
+       [:div {:dangerouslySetInnerHTML {:__html (md->html docs)}}])]))
 
 (defn root-component []
   [:div

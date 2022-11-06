@@ -53,7 +53,8 @@
   ::init-client
   [(rf/inject-cofx ::ws/url)]
   (fn [{url ::ws/url} _]
-    {::ws/open-socket url}))
+    {:db {:now (js/Date.)}
+     ::ws/open-socket url}))
 
 (defn init! []
   (ajax/load-interceptors!)
