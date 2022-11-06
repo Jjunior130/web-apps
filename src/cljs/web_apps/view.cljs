@@ -58,7 +58,7 @@
   is pressed."
   []
   (let [value (reagent.core/atom nil)
-        session-id @(rf/subscribe [::ws/session-id])]
+        session-id (rf/subscribe [::ws/session-id])]
     (fn []
       [:input.form-control
        {:type        :text
@@ -67,10 +67,10 @@
         :on-change
         #(reset! value (-> % .-target .-value))
         :on-key-down
-        #(when (and session-id (= (.-keyCode %) 13))
+        #(when (and @session-id (= (.-keyCode %) 13))
            (when-let [v @value]
              (rf/dispatch [::ws/client>server
-                           [{:user    [:session-id session-id]
+                           [{:user    [:session-id @session-id]
                              :message v
                              :posted  (js/Date.)}]]))
            (reset! value nil))}])))

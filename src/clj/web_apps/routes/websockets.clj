@@ -9,6 +9,10 @@
 
 (def server "A clojure.core.async/mult." (a/mult clients))
 
+(rf/reg-sub
+  ::session-id
+  #(:session-id %))
+
 (defmulti on-event-receive
   (fn [client [event-id]] event-id))
 
