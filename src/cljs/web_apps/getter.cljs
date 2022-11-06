@@ -35,6 +35,21 @@
   ::now
   #(:now %))
 
+(defn h-mm-ss [date]
+  (let [h (.getHours date)
+        m (.getMinutes date)
+        s (.getSeconds date)
+        a (if (> h 12) "pm" "am")
+        h (mod h 12)
+        m (if (> m 10) m (str "0"m))
+        s (if (> s 10) s (str "0"s))]
+    (str h":"m":"s" "a)))
+
+(rf/reg-sub
+  ::now-h:mm:ss
+  :<- [::now]
+  h-mm-ss)
+
 (rf/reg-sub
   :nav/route
   :<- [:kee-frame/route]
