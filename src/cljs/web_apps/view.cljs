@@ -5,8 +5,9 @@
     [reagent.core :as r]
     [re-frame.core :as rf]
     [re-posh.core :as rp]
-    [web-apps.websockets :as ws]
-    [cljs.core.async :as a]))
+    [cljs.core.async :as a]
+    [web-apps.chat :as chat]
+    [web-apps.setter :as setter]))
 
 (defn nav-link [title page]
   [:a.navbar-item
@@ -28,123 +29,25 @@
       {:class (when @expanded? :is-active)}
       [:div.navbar-start
        [nav-link "Home" :home]
+       [nav-link "Chat" :chat]
        [nav-link "About" :about]]]]))
 
 (defn about-page []
   [:section.section>div.container>div.content
    [:img {:src "/img/warning_clojure.png"}]])
 
-(rp/reg-query-sub
-  ::messages
-  '[:find ?msg ?t ?username
-    :where
-    [?e :user ?u]
-    [?u :username ?username]
-    [?e :message ?msg]
-    [?e :posted ?t]])
-
-(defn message-list []
-  (fn []
-    [:ul
-     (for [[i [message t username]]
-           (take-last 10
-             (map-indexed vector
-               (sort-by second @(rf/subscribe
-                                  [::messages]))))]
-       ^{:key i}
-       [:li ((clojure.string/split (str t) " ") 4)
-        " - "
-        username ": "
-        message])]))
-
-(rf/reg-cofx
-  ::now
-  (fn [cofx]
-    (assoc cofx
-      :now (js/Date.))))
-
-(kf/reg-event-fx
-  :input/on-key-down
-  [(rf/inject-cofx ::now)]
-  (fn [{{:keys [session-id]} :db
-        now                  :now}
-       [value]]
-    (rf/dispatch [::ws/client>server
-                  [{:user    [:session-id session-id]
-                    :posted  now
-                    :message value}]])
-    nil))
-
-
-(defn message-input
-  "type in a message and send it to the server.
-  This component creates a local atom to keep
-  track of the message being typed in and sends
-  the message to the server when the enter key
-  is pressed."
-  []
-  (let [value (reagent.core/atom nil)]
-    (fn []
-      [:input.form-control
-       {:type        :text
-        :placeholder "type in a message and press enter"
-        :value       @value
-        :on-change
-        #(reset! value (-> % .-target .-value))
-        :on-key-down
-        #(when (= (.-keyCode %) 13)
-           (when-let [v @value]
-             (rf/dispatch [:input/on-key-down v]))
-           (reset! value nil))}])))
-
-(rp/reg-query-sub
-  ::username
-  '[:find ?username .
-    :in $ ?s-id
-    :where
-    [?u :session-id ?s-id]
-    [?u :username ?username]])
-
-(rf/reg-sub
-  ::now
-  #(:now %))
-
-(kf/reg-event-db
-  ::timer
-  (fn [db [now]]
-    (assoc db
-      :now now)))
-
-(defonce now
-  (js/setInterval
-    #(let [now (js/Date.)]
-       (rf/dispatch [::timer now]))
-    1000))
-
 (defn home-page []
-  (fn []
-    [:section.section>div.container>div.content
-     [:div.container
-      [:div.row
-       [:div.col-md-12
-        [:h2 "Welcome to chat"]]]
-      [:div.row
-       [:div.col-sm-6
-        [message-list]]]
-      [:div.row
-       [:div.col-sm-6
-        ((clojure.string/split (str @(rf/subscribe [::now])) " ") 4)
-        " - "
-        @(rf/subscribe [::username @(rf/subscribe [::ws/session-id])])
-        ": "
-        [message-input]]]]
-     (when-let [docs @(rf/subscribe [:docs])]
-       [:div {:dangerouslySetInnerHTML {:__html (md->html docs)}}])]))
+  [:section.section>div.container>div.content
+   (when-let [docs @(rf/subscribe [:docs])]
+     [:div {:dangerouslySetInnerHTML {:__html (md->html docs)}}])])
 
 (defn root-component []
   [:div
    [navbar]
-   [kf/switch-route (fn [route] (get-in route [:data :name]))
+   [kf/switch-route (fn [{{page :name} :data}]
+                      (rf/dispatch [::setter/change-page page])
+                      page)
     :home home-page
+    :chat chat/chat-page
     :about about-page
     nil [:div ""]]])

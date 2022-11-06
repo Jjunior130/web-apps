@@ -32,7 +32,7 @@
 
 (defn sync-db [client]
   (a/go
-    (a/>! client [:web-apps.websockets/server>clients (db)])))
+    (a/>! client [:web-apps.setter/server>clients (db)])))
 
 (defn transact [tx]
   (d/transact conn tx))
