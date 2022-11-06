@@ -69,12 +69,10 @@
         now :now
         :as ctx}
        [value]]
-    (if server
-      (a/go (a/>! server [:web-apps.routes.websockets/client>server [{:user [:session-id session-id]
-                                                                      :message value
-                                                                      :posted now}]]))
-      (rf/dispatch [::disconnected true]))
-    ctx))
+    (rf/dispatch [::ws/client>server [{:user [:session-id session-id]
+                                       :message value
+                                       :posted now}]])
+    nil))
 
 
 (defn message-input
