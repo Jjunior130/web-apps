@@ -12,10 +12,11 @@
   ::change-page
   [(rf/inject-cofx ::getter/now)]
   (fn [{{:keys [session-id]} :db
-        now :now} [page]]
-    (rf/dispatch [::client>server [{:user [:session-id session-id]
-                                    :changed now
-                                    :page page}]])))
+        now                  :now} [page]]
+    (rf/dispatch [::client>server
+                  [{:user    [:session-id session-id]
+                    :changed now
+                    :page    page}]])))
 
 (kf/reg-chain
   ::load-home-page
@@ -35,7 +36,7 @@
   ::init-client
   [(rf/inject-cofx ::getter/url)]
   (fn [{url ::getter/url} _]
-    {:db {:now (js/Date.)}
+    {:db           {:now (js/Date.)}
      ::open-socket url}))
 
 (kf/reg-event-fx

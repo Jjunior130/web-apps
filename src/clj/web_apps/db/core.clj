@@ -11,7 +11,9 @@
    :posted     {:db/cardinality :db.cardinality/one}
    :session-id {:db/unique :db.unique/identity}
    :user {:db/cardinality :db.cardinality/one}
-   :username {}})
+   :username {}
+   :changed {}
+   :page {}})
 
 (defstate conn
   :start (d/create-conn schema)

@@ -15,7 +15,7 @@
                (sort-by second @(rf/subscribe
                                   [::getter/messages]))))]
        ^{:key i}
-       [:li ((clojure.string/split (str t) " ") 4)
+       [:li (getter/h-mm-ss t)
         " - "
         username ": "
         message])]))
@@ -58,7 +58,7 @@
       [message-list]]]
     [:div.row
      [:div.col-sm-6
-      ((clojure.string/split (str @(rf/subscribe [::getter/now])) " ") 4)
+      @(rf/subscribe [::getter/now-h:mm:ss])
       " - "
       @(rf/subscribe [::getter/username @(rf/subscribe [::getter/session-id])])
       ": "
