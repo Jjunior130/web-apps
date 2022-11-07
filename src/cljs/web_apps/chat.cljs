@@ -37,8 +37,8 @@
         #(reset! value (-> % .-target .-value))
         :on-key-down
         #(when (= (.-keyCode %) 13)
-           (when-let [v @value]
-             (rf/dispatch [:input/on-key-down v]))
+           (when (not-every? (fn [c] (= c " ")) @value)
+             (rf/dispatch [:input/on-key-down @value]))
            (reset! value nil))}])))
 
 (defonce now
