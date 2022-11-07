@@ -7,18 +7,20 @@
     [web-apps.setter :as setter]))
 
 (defn message-list []
-  (fn []
-    [:ul
-     (for [[i [message t username]]
-           (take-last 10
-             (map-indexed vector
-               (sort-by second @(rf/subscribe
-                                  [::getter/messages]))))]
-       ^{:key i}
-       [:li (getter/h-mm-ss t)
-        " - "
-        username ": "
-        message])]))
+  [re-com.core/v-box
+   :children
+   (for [[i [message t username]]
+         (take-last 10
+           (map-indexed vector
+             (sort-by second @(rf/subscribe
+                                [::getter/messages]))))]
+     ^{:key i}
+     [re-com.core/h-box
+      :children
+      [(getter/h-mm-ss t)
+       " - "
+       username ": "
+       message]])])
 
 (defn message-input
   "type in a message and send it to the server.
@@ -49,17 +51,13 @@
 
 (defn chat-page []
   [:section.section>div.container>div.content
-   [:div.container
-    [:div.row
-     [:div.col-md-12
-      [:h2 "Welcome to chat"]]]
-    [:div.row
-     [:div.col-sm-6
-      [message-list]]]
-    [:div.row
-     [:div.col-sm-6
-      @(rf/subscribe [::getter/now-h:mm:ss])
-      " - "
-      @(rf/subscribe [::getter/username @(rf/subscribe [::getter/session-id])])
-      ": "
-      [message-input]]]]])
+   [re-com.core/v-box
+    :children [[:h2 "Welcome to chat"]
+               [message-list]
+               [re-com.core/h-box
+                :children [@(rf/subscribe [::getter/now-h:mm:ss])
+                           " - "
+                           @(rf/subscribe [::getter/username @(rf/subscribe [::getter/session-id])])
+                           ": "
+                           [message-input]]]]]])
+
