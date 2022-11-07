@@ -39,8 +39,9 @@
   (let [h (.getHours date)
         m (.getMinutes date)
         s (.getSeconds date)
-        a (if (> h 12) "pm" "am")
+        a (if (>= h 12) "pm" "am")
         h (mod h 12)
+        h (if (zero? h) 12 h)
         m (if (>= m 10) m (str "0"m))
         s (if (>= s 10) s (str "0"s))]
     (str h":"m":"s" "a)))

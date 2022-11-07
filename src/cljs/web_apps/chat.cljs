@@ -4,24 +4,21 @@
     [kee-frame.core :as kf]
     [re-posh.core :as rp]
     [web-apps.getter :as getter]
-    [web-apps.setter :as setter]
-    [re-com.core :as rc]))
+    [web-apps.setter :as setter]))
 
 (defn message-list []
-  [rc/v-box
-   :children
-   (for [[i [message t username]]
-         (take-last 10
-           (map-indexed vector
-             (sort-by second @(rf/subscribe
-                                [::getter/messages]))))]
-     ^{:key i}
-     [rc/h-box
-      :children
-      [(getter/h-mm-ss t)
-       " - "
-       username ": "
-       message]])])
+  (fn []
+    [:ul {:style {:margin-left "0" :list-style "none"}}
+     (for [[i [message t username]]
+           (take-last 10
+             (map-indexed vector
+               (sort-by second @(rf/subscribe
+                                  [::getter/messages]))))]
+       ^{:key i}
+       [:li (getter/h-mm-ss t)
+        " - "
+        username ": "
+        message])]))
 
 (defn message-input
   "type in a message and send it to the server.
@@ -32,23 +29,17 @@
   []
   (let [value (reagent.core/atom nil)]
     (fn []
-      [rc/h-box
-       :children
-       [@(rf/subscribe [::getter/now-h:mm:ss])
-        " - "
-        @(rf/subscribe [::getter/username @(rf/subscribe [::getter/session-id])])
-        ": "
-        [:input.form-control
-         {:type        :text
-          :placeholder "type in a message and press enter"
-          :value       @value
-          :on-change
-          #(reset! value (-> % .-target .-value))
-          :on-key-down
-          #(when (= (.-keyCode %) 13)
-             (when (not-every? (fn [c] (= c " ")) @value)
-               (rf/dispatch [:input/on-key-down @value]))
-             (reset! value nil))}]]])))
+      [:input.form-control
+       {:type        :text
+        :placeholder "type in a message and press enter"
+        :value       @value
+        :on-change
+        #(reset! value (-> % .-target .-value))
+        :on-key-down
+        #(when (= (.-keyCode %) 13)
+           (when (not-every? (fn [c] (= c " ")) @value)
+             (rf/dispatch [:input/on-key-down @value]))
+           (reset! value nil))}])))
 
 (defonce now
   (js/setInterval
@@ -57,10 +48,19 @@
     1000))
 
 (defn chat-page []
-  [:section.section>div.container>div.content
-   [rc/v-box
-    :children
-    [[:h2 "Welcome to chat"]
-     [message-list]
-     [message-input]]]])
-
+  [:section.section {:style {:padding-top "1rem"}}
+   [:div.container>div.content
+    [:div.container
+     [:div.row
+      [:div.col-md-12
+       [:h2 "Welcome to chat"]]]
+     [:div.row
+      [:div.col-sm-6
+       [message-list]]]
+     [:div.row
+      [:div.col-sm-6
+       @(rf/subscribe [::getter/now-h:mm:ss])
+       " - "
+       @(rf/subscribe [::getter/username @(rf/subscribe [::getter/session-id])])
+       ": "
+       [message-input]]]]]])
