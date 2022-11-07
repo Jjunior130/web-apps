@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Leiningen: re-com:2.13.2">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/re-com/re-com/2.13.2/re-com-2.13.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
