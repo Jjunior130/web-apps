@@ -4,10 +4,11 @@
     [kee-frame.core :as kf]
     [re-posh.core :as rp]
     [web-apps.getter :as getter]
-    [web-apps.setter :as setter]))
+    [web-apps.setter :as setter]
+    [re-com.core :as rc]))
 
 (defn message-list []
-  [re-com.core/v-box
+  [rc/v-box
    :children
    (for [[i [message t username]]
          (take-last 10
@@ -15,7 +16,7 @@
              (sort-by second @(rf/subscribe
                                 [::getter/messages]))))]
      ^{:key i}
-     [re-com.core/h-box
+     [rc/h-box
       :children
       [(getter/h-mm-ss t)
        " - "
@@ -31,7 +32,7 @@
   []
   (let [value (reagent.core/atom nil)]
     (fn []
-      [re-com.core/h-box
+      [rc/h-box
        :children
        [@(rf/subscribe [::getter/now-h:mm:ss])
         " - "
@@ -57,7 +58,7 @@
 
 (defn chat-page []
   [:section.section>div.container>div.content
-   [re-com.core/v-box
+   [rc/v-box
     :children
     [[:h2 "Welcome to chat"]
      [message-list]
