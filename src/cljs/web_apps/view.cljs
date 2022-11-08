@@ -44,9 +44,10 @@
 (defn root-component []
   [:div {:style {:height "100%"}}
    [navbar]
-   [kf/switch-route (fn [{{page :name} :data}]
-                      (rf/dispatch [::setter/change-page page])
-                      page)
+   [kf/switch-route
+    (fn [{{page :name} :data}]
+      (rf/dispatch [::setter/change-page page])
+      page)
     :home home-page
     :chat chat/chat-page
     :about about-page

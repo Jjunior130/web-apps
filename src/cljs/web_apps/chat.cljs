@@ -35,7 +35,7 @@
   (let [value (reagent.core/atom nil)]
     (fn []
       [:input.form-control
-       {:style {:flex "1"}
+       {:style       {:flex "1"}
         :type        :text
         :placeholder "type in a message and press enter"
         :value       @value
@@ -54,16 +54,16 @@
 
 (defn chat-page []
   [:div.content.container
-   {:style {:margin-top      "0.2rem"
-            :margin-left     "0.8rem"
-            :display         "flex"
-            :flex-direction  "column"
-            :height          "100%"}}
+   {:style {:margin-top     "0.2rem"
+            :margin-left    "0.8rem"
+            :display        "flex"
+            :flex-direction "column"
+            :height         "100%"}}
    [:h2 {:style {:flex "0"}} "Welcome to chat"]
    [message-list]
-   [:div {:style {:display "flex"
+   [:div {:style {:display     "flex"
                   :align-items "center"
-                  :flex "0"}}
+                  :flex        "0"}}
     @(rf/subscribe [::getter/now-h:mm:ss])
     " - "
     @(rf/subscribe [::getter/username @(rf/subscribe [::getter/session-id])])
