@@ -8,9 +8,10 @@
 
 (defn message-list []
   (fn []
-    [:div {:style {:overflow :auto
-                   :display "flex"
-                   :flex-direction "column-reverse"
+    [:div {:style {:overflow        :auto
+                   :flex            :auto
+                   :display         "flex"
+                   :flex-direction  "column-reverse"
                    :justify-content "space-between"}}
      (for [[i [message t username]]
            (->> @(rf/subscribe
@@ -56,8 +57,8 @@
 
 (defn chat-page []
   [:div.content
-   {:style {:flex :auto
-            :overflow :auto
+   {:style {:flex           :auto
+            :overflow       :auto
             :margin-top     "0.2rem"
             :margin-left    "0.8rem"
             :display        "flex"
