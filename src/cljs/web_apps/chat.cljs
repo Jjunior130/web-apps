@@ -8,17 +8,19 @@
 
 (defn message-list []
   (fn []
-    [:div {:style {:display "flex"
-                   :flex-direction "column"
-                   :flex "1"
+    [:div {:style {:overflow :auto
+                   :display "flex"
+                   :flex-direction "column-reverse"
                    :justify-content "space-between"}}
      (for [[i [message t username]]
-           (take-last 25
-             (map-indexed vector
-               (sort-by second @(rf/subscribe
-                                  [::getter/messages]))))]
+           (->> @(rf/subscribe
+                   [::getter/messages])
+             (sort-by second)
+             (map-indexed vector)
+             (take-last 30)
+             reverse)]
        ^{:key i}
-       [:div
+       [:div {:display "flex"}
         (getter/h-mm-ss t)
         " - "
         username
@@ -35,7 +37,7 @@
   (let [value (reagent.core/atom nil)]
     (fn []
       [:input.form-control
-       {:style       {:flex "1"}
+       {:style       {:flex "auto"}
         :type        :text
         :placeholder "type in a message and press enter"
         :value       @value
@@ -53,19 +55,21 @@
     1000))
 
 (defn chat-page []
-  [:div.content.container
-   {:style {:margin-top     "0.2rem"
+  [:div.content
+   {:style {:flex :auto
+            :overflow :auto
+            :margin-top     "0.2rem"
             :margin-left    "0.8rem"
             :display        "flex"
-            :flex-direction "column"
-            :height         "100%"}}
-   [:h2 {:style {:flex "0"}} "Welcome to chat"]
+            :flex-direction "column"}}
+   [:h2 {:style {:margin-bottom "auto"}}
+    "Welcome to chat"]
    [message-list]
    [:div {:style {:display     "flex"
-                  :align-items "center"
-                  :flex        "0"}}
-    @(rf/subscribe [::getter/now-h:mm:ss])
-    " - "
-    @(rf/subscribe [::getter/username @(rf/subscribe [::getter/session-id])])
-    ": "
+                  :align-items "center"}}
+    [:div
+     @(rf/subscribe [::getter/now-h:mm:ss])
+     " - "
+     @(rf/subscribe [::getter/username @(rf/subscribe [::getter/session-id])])
+     ": "]
     [message-input]]])
