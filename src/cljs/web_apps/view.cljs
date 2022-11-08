@@ -17,7 +17,7 @@
 
 (defn navbar []
   (r/with-let [expanded? (r/atom false)]
-    [:nav.navbar.is-info>div.container
+    [:nav.navbar.is-info
      [:div.navbar-brand
       [:a.navbar-item {:href "/" :style {:font-weight :bold}} "web-apps"]
       [:span.navbar-burger.burger
@@ -42,7 +42,9 @@
      [:div {:dangerouslySetInnerHTML {:__html (md->html docs)}}])])
 
 (defn root-component []
-  [:div {:style {:height "100%"}}
+  [:div {:style {:height :inherit
+                 :display        "flex"
+                 :flex-direction "column"}}
    [navbar]
    [kf/switch-route
     (fn [{{page :name} :data}]
