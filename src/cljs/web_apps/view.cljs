@@ -42,7 +42,7 @@
      [:div {:dangerouslySetInnerHTML {:__html (md->html docs)}}])])
 
 (defn root-component []
-  [:div
+  [:div {:style {:height "100%"}}
    [navbar]
    [kf/switch-route (fn [{{page :name} :data}]
                       (rf/dispatch [::setter/change-page page])

@@ -1,7 +1,13 @@
 html,
 body {
 	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	height: 100%
 }
+
+div#app {
+    height: 100%
+}
+
 @font-face {
   font-family: 'Material Icons';
   font-style: normal;
