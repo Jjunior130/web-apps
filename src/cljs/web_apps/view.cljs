@@ -43,6 +43,7 @@
 
 (defn root-component []
   [:div {:style {:height :inherit
+                 :width :inherit
                  :display        "flex"
                  :flex-direction "column"}}
    [navbar]

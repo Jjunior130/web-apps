@@ -21,8 +21,10 @@
              (take-last 30)
              reverse)]
        ^{:key i}
-       [:div {:display "flex"}
-        (getter/h-mm-ss t)
+       [:div
+        [:div.tooltip
+         (getter/h-mm-ss t)
+         [:span.tooltiptext (str t)]]
         " - "
         username
         ": "
@@ -69,7 +71,9 @@
    [:div {:style {:display     "flex"
                   :align-items "center"}}
     [:div
-     @(rf/subscribe [::getter/now-h:mm:ss])
+     [:div.tooltip
+      @(rf/subscribe [::getter/now-h:mm:ss])
+      [:span.tooltiptext (str @(rf/subscribe [::getter/now]))]]
      " - "
      @(rf/subscribe [::getter/username @(rf/subscribe [::getter/session-id])])
      ": "]
