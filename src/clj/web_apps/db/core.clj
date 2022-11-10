@@ -6,8 +6,7 @@
     [mount.core :refer [defstate]]
     [namejen.names :as n]
     [datascript.transit :as dt]
-    [web-apps.config :refer [env]]
-    [clojure.tools.logging :as log]))
+    [web-apps.config :refer [env]]))
 
 (def schema
   {:message    {:db/cardinality :db.cardinality/one}
