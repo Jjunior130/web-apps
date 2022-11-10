@@ -4,7 +4,10 @@
     [clojure.core.async :as a]
     #_[io.rkn.conformity :as c]
     [mount.core :refer [defstate]]
-    [namejen.names :as n]))
+    [namejen.names :as n]
+    [datascript.transit :as dt]
+    [web-apps.config :refer [env]]
+    [clojure.tools.logging :as log]))
 
 (def schema
   {:message    {:db/cardinality :db.cardinality/one}
@@ -15,12 +18,26 @@
    :changed {}
    :page {}})
 
+(def disk-db "resources/db.edn")
+
+(defn save-to-disk []
+  (spit disk-db (dt/write-transit-str (db))))
+
+(defn load-from-disk []
+  (when (seq (slurp disk-db))
+    (d/conn-from-db (dt/read-transit-str (slurp disk-db)))))
+
 (defstate conn
-  :start (d/create-conn schema)
+  :start (or (load-from-disk)
+           (d/create-conn schema))
   :stop nil)
 
 (defn db []
   (d/db conn))
+
+(defn transact [tx]
+  (d/transact conn tx)
+  (save-to-disk))
 
 (defn username [session-id]
  (or
@@ -35,9 +52,6 @@
 (defn sync-db [client]
   (a/go
     (a/>! client [:web-apps.setter/server>clients (db)])))
-
-(defn transact [tx]
-  (d/transact conn tx))
 
 (defn datoms [index & args]
   (apply d/datoms (d/db conn) index args))

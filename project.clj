@@ -45,7 +45,8 @@
                  [jarohen/chord "0.8.1"]
                  [re-posh "0.3.3"]
                  [datascript "1.3.15"]
-                 [eigenhombre/namejen "0.1.23"]]
+                 [eigenhombre/namejen "0.1.23"]
+                 [datascript-transit "0.3.0"]]
 
   :min-lein-version "2.0.0"
   
